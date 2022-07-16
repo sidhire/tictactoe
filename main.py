@@ -1,6 +1,5 @@
 import random
 from typing import Dict, List, Tuple
-import numpy as np
 
 from check_submission import check_submission
 from game_mechanics import (
@@ -16,71 +15,6 @@ from game_mechanics import (
 TEAM_NAME = "Memes"  # <---- Enter your team name here!
 assert TEAM_NAME != "Team Name", \
     "Please change your TEAM_NAME!"
-
-# def is_state_valid(state):
-
-
-class TTTEnv:
-
-    ALL_ACTIONS = [
-        (0, 'X'),
-        (0, 'O'),
-        (1, 'X'),
-        (1, 'O'),
-        (2, 'X'),
-        (2, 'O'),
-        (3, 'X'),
-        (3, 'O'),
-        (4, 'X'),
-        (4, 'O'),
-        (5, 'X'),
-        (5, 'O'),
-        (6, 'X'),
-        (6, 'O'),
-        (7, 'X'),
-        (7, 'O'),
-        (8, 'X'),
-        (8, 'O'),
-    ]
-
-    CONVERSION_str_to_array = {'': 0, 'O': 1, 'X': 2}
-
-    CONVERSION_array_to_str = {
-        v: k for k, v in CONVERSION_str_to_array.items()
-    }
-
-    def __init__(self):
-        self._board = np.zeros((3, 3))
-        self.reset()
-
-        self.array  # Current state of the board in array
-
-    def strlist_to_array(self, sl):
-        converted = [self.CONVERSION_str_to_array[i] for i in sl]
-        return np.array(converted).reshape(3, 3)
-
-    def array_to_strlist(self, array):
-        return [self.CONVERSION_array_to_str[i] for i in array.reshape(9)]
-
-    def get_possible_actions(self, state):
-        return [list(i) for i in np.transpose(np.where(self.array==0))]
-        # return [a for a in self.ALL_ACTIONS if is_state_valid(transition_function(state, a))]
-
-    def step(self, action: Tuple[int, int]):
-        assert action in self.get_possible_actions(self.state)
-        reward = 10 if self.state == (0, 9) else 0
-        self.done = self.state == (0, 9)
-        if not self.done:
-            # Don't update the state when you're in the terminal state (self.done == True)
-            self.state = transition_function(self.state, action)
-        self.total_return += reward
-        return self.state, reward, self.done, {}
-
-    def reset(self):
-        self.state = np.zeros((3, 3))
-        self.total_return = 0
-        self.done = False
-        return self.state, self.total_return, self.done, {}
 
 
 def train() -> Dict:
